@@ -1,0 +1,26 @@
+FOLDER=$(echo "$1" | xargs)
+
+if [ -z "$FOLDER" ]; then
+	echo "Input a folder"
+	exit
+fi
+
+if [ -d "$FOLDER" ]; then
+	echo "$FOLDER already exists"
+	exit
+fi
+
+echo "$FOLDER ready to go"
+
+git clone https://github.com/waseemshahwan/hapi-base "$FOLDER"
+cd "$FOLDER"
+rm -rf .git
+
+yarn global add json
+json -I -f package.json -e "this.name=\"$FOLDER\""
+
+yarn
+
+echo
+echo "All done!"
+echo
